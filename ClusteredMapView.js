@@ -89,6 +89,9 @@ export default class ClusteredMapView extends PureComponent {
 
   onRegionChangeComplete(region) {
     let data = this.getClusters(region)
+    data.forEach((item) => {
+      item.zoom = region.zoom;
+    });
     this.setState({ region, data }, () => {
         this.props.onRegionChangeComplete && this.props.onRegionChangeComplete(region, data)
     })
@@ -143,7 +146,7 @@ export default class ClusteredMapView extends PureComponent {
                 {...d}
                 onPress={this.onClusterPress}
                 renderCluster={this.props.renderCluster}
-                key={`cluster-${d.properties.cluster_id}`} />
+                key={`cluster-${d.zoom}-${d.properties.cluster_id}`} />
             )
           })
         }
